@@ -1,6 +1,5 @@
 # 🧠 AI-Powered Job Fit & Resume Optimizer
 
----
 
 ## 🔍 Overview
 The AI-Powered Job Fit & Resume Optimizer is a smart web app that helps job seekers:
@@ -12,6 +11,8 @@ The AI-Powered Job Fit & Resume Optimizer is a smart web app that helps job seek
 - Identify missing skills and recommend personalized project ideas
 
 Built with Python, NLP, Streamlit, and powerful text matching techniques, this tool helps candidates improve their resumes and job prospects efficiently.
+
+---
 
 ## 💡 Features
 - 📄 Resume Parser: Extracts and cleans content from .pdf and .docx resumes using pdfminer and python-docx
@@ -25,6 +26,9 @@ Built with Python, NLP, Streamlit, and powerful text matching techniques, this t
 - 🧩 Project Suggestions: Suggests data, ML, or domain-specific portfolio projects based on skill gaps
 
 - 🎛️ Streamlit UI: Intuitive interface to upload files, view scores, and interact with recommendations
+
+---
+
 
 ## 🗂️ Folder Structure
 job-fit-optimizer/
@@ -40,6 +44,7 @@ job-fit-optimizer/
 ├── requirements.txt           # All required dependencies
 └── README.md                  # You're here!
 
+---
 
 📦 Requirements
 - Python 3.8+
