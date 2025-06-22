@@ -1,48 +1,45 @@
 import os
-import spacy
+from io import BytesIO
 from pdfminer.high_level import extract_text as extract_pdf
 from docx import Document
+import spacy
 
 nlp = spacy.load("en_core_web_sm")
 
-def extract_text_from_docx(docx_path):
-    doc = Document(docx_path)
-    return "\n".join([para.text for para in doc.paragraphs])
+def extract_text(uploaded_file):
+    ext = os.path.splitext(uploaded_file.name)[1].lower()
 
-def extract_text(file_path):
-    ext = os.path.splitext(file_path)[1].lower()
-    if ext == '.pdf':
-        return extract_pdf(file_path)
-    elif ext == '.docx':
-        return extract_text_from_docx(file_path)
+    if ext == ".pdf":
+        uploaded_file.seek(0)  # Reset pointer
+        return extract_pdf(BytesIO(uploaded_file.read()))
+
+    elif ext == ".docx":
+        uploaded_file.seek(0)
+        doc = Document(uploaded_file)
+        return "\n".join([para.text for para in doc.paragraphs])
+
     else:
-        raise ValueError("Unsupported file format")
+        return ""
 
-def extract_resume_info(text):
-    doc = nlp(text)
+def parse_resume(uploaded_file):
+    raw_text = extract_text(uploaded_file)
+    doc = nlp(raw_text)
+
     skills = []
     tools = []
     experience = []
 
     for ent in doc.ents:
-        if ent.label_ in ['ORG', 'PRODUCT', 'SKILL']:
-            tools.append(ent.text)
-        elif ent.label_ == 'PERSON':
-            continue
-        elif ent.label_ == 'WORK_OF_ART':
+        if ent.label_ in ["ORG", "PRODUCT", "SKILL"]:
             skills.append(ent.text)
 
-    # Dummy parsing logic for now — update with real patterns later
     for sent in doc.sents:
-        if '-' in sent.text or '•' in sent.text:
+        if "experience" in sent.text.lower():
             experience.append(sent.text.strip())
 
     return {
-        'skills': list(set(skills)),
-        'tools': list(set(tools)),
-        'experience': experience
+        "name": "Candidate",
+        "skills": list(set(skills)),
+        "tools": list(set(tools)),
+        "experience": list(set(experience)),
     }
-
-def parse_resume(file_path):
-    raw_text = extract_text(file_path)
-    return extract_resume_info(raw_text)

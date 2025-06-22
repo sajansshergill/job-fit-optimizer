@@ -1,0 +1,8 @@
+streamlit
+python-docx
+pdfminer.six
+spacy
+scikit-learn
+fuzzywuzzy
+openai
+python-dotenv
